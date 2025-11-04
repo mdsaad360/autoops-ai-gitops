@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: autoops-ai
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: autoops-ai
+  template:
+    metadata:
+      labels:
+        app: autoops-ai
+    spec:
+      containers:
+        - name: autoops-ai
+          image: mdsaad360/autoops-ai:89882b1f5cebc826b9f2d09d70ac9751718b19a6
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8000
+          env:
+            - name: ENV
+              value: "prod"
+          # The following resource requests and limits are set based on expected workload and to ensure stable performance.
+          # Requests guarantee minimum resources, while limits prevent excessive usage.
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "250m"
+            limits:
+              memory: "512Mi"
+              cpu: "500m"
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 8000
+            initialDelaySeconds: 10
+            periodSeconds: 15
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 8000
+            initialDelaySeconds: 30
+            periodSeconds: 30
+          # The preStop hook adds a delay to allow active connections to drain before the container is terminated.
+          lifecycle:
+            preStop:
+              exec:
+                command: ["/bin/sh", "-c", "sleep 10"]
+      terminationGracePeriodSeconds: 30
