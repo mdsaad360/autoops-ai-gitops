@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: autoops-ai
-          image: mdsaad360/autoops-ai:95b07aff3ea310506163602631fe9968f44e5ee7
+          image: mdsaad360/autoops-ai:7a4241cba84fd2571579a43e2ebd51afa39813ae
           imagePullPolicy: Always
           ports:
             - containerPort: 8000
