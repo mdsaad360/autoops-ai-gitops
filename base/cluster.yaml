@@ -1,0 +1,23 @@
+apiVersion: eksctl.io/v1alpha5
+kind: ClusterConfig
+
+metadata:
+  name: autoops-ai-eks
+  region: us-east-1
+  version: "1.34"
+
+vpc:
+  id: "vpc-00c51ac23d2d2c1cf"
+  subnets:
+    public:
+      us-east-1a: { id: "subnet-047c4145413d64cad" }
+      us-east-1b: { id: "subnet-01dd91ac7189f45b5" }
+      us-east-1c: { id: "subnet-0fcee1ca027fecf8e" }
+
+autoModeConfig:
+  enabled: true
+  nodeRoleARN: "arn:aws:iam::511039171848:role/AmazonEKSAutoNodeRole"
+  
+iam:
+  serviceRoleARN: "arn:aws:iam::511039171848:role/AmazonEKSAutoClusterRole"
+  withOIDC: true
