@@ -20,4 +20,5 @@ autoModeConfig:
   
 iam:
   serviceRoleARN: "arn:aws:iam::511039171848:role/AmazonEKSAutoClusterRole"
+
   withOIDC: true
